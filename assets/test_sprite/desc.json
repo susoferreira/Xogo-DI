@@ -1,0 +1,18 @@
+{
+    "default_animation":"test",
+    "default_image":"assets/test_sprite/placeholder1.png",
+    "animations":
+    [
+        {
+            "name":"test",
+            "frames":[
+                "assets/test_sprite/placeholder1.png",
+                "assets/test_sprite/placeholder2.png",
+                "assets/test_sprite/placeholder3.png"
+            ]
+        }
+
+    ]
+
+
+}
