@@ -1,5 +1,5 @@
-from game_component import game_component
-from graphical_item import graphical_item
+from Base.game_component import game_component
+from Base.graphical_item import graphical_item
 
 
 class test_component(game_component):

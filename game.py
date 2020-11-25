@@ -1,7 +1,8 @@
-from graphical_item import graphical_item
+from pygame.constants import K_LEFT, K_UP
+from Base.graphical_item import graphical_item
 import pygame
 
-from game_state import game_state
+from Base.game_state import game_state
 from typing import List
 WIDTH = 400
 HEIGTH = 300
@@ -11,7 +12,7 @@ class Game():
         pygame.init()
         self.window = pygame.display.set_mode((WIDTH, HEIGTH))
         self.all_sprites = pygame.sprite.Group()
-        self.player= graphical_item("assets/test_sprite/desc.json",animation_delay=7, pos=(100,100))
+        self.player= graphical_item("assets/test_sprite/desc.json",animation_delay=7,scale = 2, pos=(100,100))
         
         self.all_sprites.add(self.player)
     def game_loop(self):
@@ -27,7 +28,6 @@ class Game():
 
     def update(self):
 
-        self.player.scale_by(1.05)
         self.all_sprites.update()
 
     def handle_gamestate(self,game_state: game_state): # gamestate tiene setup() y ondestroy()
@@ -37,7 +37,9 @@ class Game():
         for event in events:
             if event.type == pygame.QUIT:
                 exit()
-
+            # if event.type == pygame.KEYDOWN:
+            #     if event.key ==K_UP:
+            #         self.player.scale_by(1.1)
 if __name__ =="__main__":
     x = Game()
     x.game_loop()
