@@ -1,14 +1,17 @@
 {
-    "default_animation":"test",
+    "default_animation":"circ",
     "default_image":"assets/test_sprite/placeholder1.png",
     "animations":
     [
         {
-            "name":"test",
+            "name":"circ",
             "frames":[
-                "assets/test_sprite/placeholder1.png",
-                "assets/test_sprite/placeholder2.png",
-                "assets/test_sprite/placeholder3.png"
+                "assets/test_sprite/animCirc1.png",
+                "assets/test_sprite/animCirc2.png",
+                "assets/test_sprite/animCirc3.png",
+                "assets/test_sprite/animCirc4.png",
+                "assets/test_sprite/animCirc5.png",
+                "assets/test_sprite/animCirc6.png"
             ]
         }
 

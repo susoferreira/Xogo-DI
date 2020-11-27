@@ -1,17 +1,20 @@
+from pygame.constants import K_LEFT, K_UP
+from Base.graphical_item import graphical_item
 import pygame
 
-from graphical_item import graphical_item
-
+from Base.game_state import game_state
+from typing import List
 WIDTH = 400
 HEIGTH = 300
 class Game():
+
     def __init__(self):
         pygame.init()
         self.window = pygame.display.set_mode((WIDTH, HEIGTH))
         self.all_sprites = pygame.sprite.Group()
-        self.player = graphical_item("./assets/test_sprite/desc.json",50,True,10)
-        self.all_sprites.add(self.player)
+        self.player= graphical_item("assets/test_sprite/desc.json",animation_delay=7,scale = 2, pos=(100,100))
         
+        self.all_sprites.add(self.player)
     def game_loop(self):
         done=False
         clock = pygame.time.Clock()
@@ -24,17 +27,19 @@ class Game():
             pygame.display.flip()
 
     def update(self):
+
         self.all_sprites.update()
 
-    def handle_gamestate(self,game_state): # gamestate tiene setup() y ondestroy()
+    def handle_gamestate(self,game_state: game_state): # gamestate tiene setup() y ondestroy()
         pass
 
-    def event_handler(self,events: pygame.event.Event):
+    def event_handler(self,events:List[ pygame.event.Event]):
         for event in events:
-            print(type(event))
             if event.type == pygame.QUIT:
                 exit()
-
+            # if event.type == pygame.KEYDOWN:
+            #     if event.key ==K_UP:
+            #         self.player.scale_by(1.1)
 if __name__ =="__main__":
     x = Game()
     x.game_loop()
