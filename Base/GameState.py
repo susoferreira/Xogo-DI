@@ -3,7 +3,7 @@
 from abc import abstractmethod
 
 
-class game_state():
+class GameState():
     """defines diferent gamestates like playing, menu, the map...
         has update and event methods, a gamestate can have multiple game components inside it
     """

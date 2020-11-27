@@ -1,40 +1,24 @@
 from abc import abstractmethod
-from Base.game_component import game_component
+from Base.GameComponent import GameComponent
 from typing import List,Tuple
 
-class Resource():
-    #resource types
-    FOOD = 1 # for maintaining a population number
-    BUILDING_MATERIALS = 2 # for expanding zone population cap and upgrades
-    RESEARCH_POINTS = 3 #I+D
+class Resources(): # almacena Recursos
 
-    def __init__(self,count: int, type: int):
-        self.count = count
+
+    def __init__(self,food_count:int,building_mat_count:int,reasearch_pts: int):
+        self.food_count = food_count
+        self.building_mat_count = building_mat_count
+        self.research_pts = reasearch_pts
         self.type = type
 
-    @classmethod
-    def add_resources(cls,res: List["Resource"],res2: List["Resource"]) -> Tuple["Resource","Resource","Resource"]:
-        result=(
-            Resource(0,Resource.FOOD),
-            Resource(0,Resource.BUILDING_MATERIALS),
-            Resource(0,Resource.RESEARCH_POINTS),
-        )  
-        res1_foodCount = sum(r.count for r in res if r.type == Resource.FOOD)
-        res1_building = sum(r.count for r in res if r.type == Resource.BUILDING_MATERIALS)
-        res1_research = sum(r.count for r in res if r.type == Resource.FOOD)
+    def add(self,resources: "Resources") -> "Resources":
 
-        res2_foodCount = sum(r.count for r in res2 if r.type == Resource.FOOD)
-        res2_building = sum(r.count for r in res2 if r.type == Resource.BUILDING_MATERIALS)
-        res2_research = sum(r.count for r in res2 if r.type == Resource.FOOD)
+        return Resources(self.food_count+resources.food_count,
+                        self.building_mat_count+resources.building_mat_count,
+                        self.research_pts+resources.research_pts)
+        
 
-        result[0].count = res1_foodCount+res2_foodCount               
-        result[1].count = res1_building+res2_building
-        result[2].count = res1_research+res2_research
-
-        return result
-
-
-class person(): #zones are populated by persons
+class Person(): #zones are populated by persons
     
     def __init__(self,attack_power:int, deffense_power:int,count:int):
         self.attack_power = attack_power
@@ -46,7 +30,7 @@ class person(): #zones are populated by persons
         pass
 
 
-class worker(person):
+class Worker(Person):# tipo de persona que genera recursos
     BASE_WORKER_POWER = 1
     BASE_WORKER_DEFFENSE = 1
 
@@ -55,9 +39,9 @@ class worker(person):
         self.deffense_power = self.BASE_WORKER_DEFFENSE * deffense_multiplier
 
 
-class zone(game_component):
+class Zone(GameComponent): # superclase de todos los tipos de zona del juego
 
-    def __init__(self,owner:Player,population:List[person]):
+    def __init__(self,owner:Player,population:List[Person]):
         self.owner=owner #player/gaia/enemy
         self.population = population
 
@@ -72,7 +56,7 @@ class zone(game_component):
         pass
 
 
-class zone_city(zone):
+class ZoneCity(Zone): # Zona de "civiles"
 
     def __init__(self):
         super().__init__(self)

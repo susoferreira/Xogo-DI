@@ -1,7 +1,8 @@
 
 from abc import abstractmethod
 from typing import Dict
-class game_component():
+
+class GameComponent():
 
     def __init__(self):
         self.paused = False

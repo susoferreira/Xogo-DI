@@ -2,10 +2,9 @@ import json
 from typing import Dict
 from typing import Any,Tuple
 import pygame
-from pygame import Rect
 
 
-class graphical_item(pygame.sprite.Sprite):
+class GraphicalItem(pygame.sprite.Sprite):
 
     def __init__(self,sprite_route: str, animation_delay:int = 1,animate:bool =True,scale: float = 1,pos:  Tuple[int, int] = (0,0)):
         """
