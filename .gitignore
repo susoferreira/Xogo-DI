@@ -1,4 +1,6 @@
 __pycache__/
 pylintrc
+.vscode/
+.idea/
+.vscode/launch.json
 .vscode/settings.json
-

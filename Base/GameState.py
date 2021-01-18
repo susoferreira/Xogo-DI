@@ -1,5 +1,3 @@
-
-
 from abc import abstractmethod
 
 
@@ -18,6 +16,7 @@ class GameState():
         pass
     @abstractmethod
     def update(self):
-        """method that gets called every game tick, override
+
+        """method that gets called e1very game tick, override
         """
-        pass
+
