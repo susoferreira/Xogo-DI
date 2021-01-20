@@ -7,7 +7,7 @@ from pygame.constants import K_DOWN, K_LEFT, K_UP
 from pygame.surfarray import blit_array
 
 from Base.GameState import GameState
-import Components.Zone as Zone
+import Components.Building as Building
 import var
 
 class Game():
@@ -17,9 +17,7 @@ class Game():
         pygame.font.init()
         
         self.window:pygame.Surface = pygame.display.set_mode((var.WIDTH, var.HEIGTH))
-        worker = Zone.Worker(3)
-        pop = Zone.Population([worker])
-        self.zone = Zone.ZoneCity(Zone.Zone.OWNER_PLAYER,pop,500)
+        self.Building = Building.BuildingCity("jugador 1,1,100")
 
     def game_loop(self):
         done=False
@@ -29,11 +27,11 @@ class Game():
             self.update() 
             self.window.fill("#000000")
             self.event_handler(pygame.event.get())
-            self.window.blit(self.zone.image,self.zone.rect)
+            self.window.blit(self.Building.image,self.Building.rect)
             pygame.display.flip()
 
     def update(self):
-        self.zone.update()
+        self.Building.update()
 
     def handle_gamestate(self,game_state: GameState): # gamestate tiene setup() y ondestroy()
         pass
@@ -44,12 +42,12 @@ class Game():
                 exit()
             if event.type == pygame.KEYDOWN:
                 if event.key ==K_UP:
-                    self.zone.max_population +=1
+                    self.Building.max_population +=1
                     
             if event.type == pygame.KEYDOWN:
                 if event.key ==K_DOWN:
-                    self.zone.max_population -=1
-                    if self.zone.max_population <= 0: self.zone.max_population = 1
+                    self.Building.max_population -=1
+                    if self.Building.max_population <= 0: self.Building.max_population = 1
 
 if __name__ =="__main__":
     x = Game()
