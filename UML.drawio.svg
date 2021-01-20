@@ -62,13 +62,13 @@
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 380px; margin-left: 141px;">
                         <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
                             <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
-                                #Zone
+                                #Building
                             </div>
                         </div>
                     </div>
                 </foreignObject>
                 <text x="200" y="384" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
-                    #Zone
+                    #Building
                 </text>
             </switch>
         </g>
@@ -79,13 +79,13 @@
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 550px; margin-left: 81px;">
                         <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
                             <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">
-                                #ZoneCity
+                                #BuildingCity
                             </div>
                         </div>
                     </div>
                 </foreignObject>
                 <text x="140" y="554" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
-                    #ZoneCity
+                    #BuildingCity
                 </text>
             </switch>
         </g>
@@ -134,9 +134,9 @@
                     <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 390px; margin-left: 320px;">
                         <div style="box-sizing: border-box; font-size: 0; text-align: center; ">
                             <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; background-color: #ffffff; white-space: nowrap; ">
-                                1 Player -&gt; n Zone
+                                1 Player -&gt; n Building
                                 <br/>
-                                1 Zone -&gt;"parent" player
+                                1 Building -&gt;"parent" player
                             </div>
                         </div>
                     </div>
