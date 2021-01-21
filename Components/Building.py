@@ -18,7 +18,7 @@ class Building(GameComponent):  # superclase de todos los tipos de zona del jueg
     OWNER_PLAYER = "Player"
     OWNER_GAIA = "Gaia"
 
-    def __init__(self, owner: str, population:int, max_population: int,power:float, GROWTH_RATIO: float = 0.3): 
+    def __init__(self, owner: str, population:int, max_population: int,power:float, GROWTH_RATIO: float =0.2): 
         """es la clase base para los distintos edificios del juego
 
         Args:
@@ -37,6 +37,7 @@ class Building(GameComponent):  # superclase de todos los tipos de zona del jueg
         """
 
         GameComponent.__init__(self)
+        self.power = power
         self.img: pygame.Surface  ## añadir en subclases
         self.GROWTH_RATIO: float = GROWTH_RATIO  # velocidad de crecimiento
         self.population_bonus: float = 1  # bonus a la cantidad máxima de población de una zona
@@ -67,10 +68,20 @@ class Building(GameComponent):  # superclase de todos los tipos de zona del jueg
             self.population.persons[key]+= inc
         print("población:",self.population.get_count())
         """
+    def grow_population(self, # modela crecimiento de población real con recursos limitados
+                    time_step: float):  # derivada de la ecuación de crecimiento logístico (para modelar el crecimiento de poblaciones)
+
+            count = self.population
+            time_bias=10 #para hacer el crecimiento más lento
+            low_pop_bias=0.001 # para aumentar el crecimiento cuando hay poca población
+            max_admisible_pop = self.power/var.POPULATION_RESOURCE_COST
+            print(max_admisible_pop,self.population)
+            inc = self.GROWTH_RATIO * count * (1 - (count / max_admisible_pop)) * time_step /time_bias +low_pop_bias
+            self.population += inc
 
 
 class BuildingCity(Building):  # Zona de "civiles" TODO terminar
-    POP_BONUS = 1.2  # la población crece más rápido en las Ciudades
+    POP_BONUS = 1.2  # las ciudades tienen más población máxima
 
     def __init__(self, owner: str, population:int , max_population: int,power:float):
         """edificio que solo puede generar recursos y población
@@ -83,7 +94,7 @@ class BuildingCity(Building):  # Zona de "civiles" TODO terminar
 
         """        
         self.population_bonus = BuildingCity.POP_BONUS
-        super().__init__(owner, population,int( max_population*BuildingCity.POP_BONUS), GROWTH_RATIO=0.7)
+        super().__init__(owner, population,int( max_population*BuildingCity.POP_BONUS),power, GROWTH_RATIO=0.5)
         
         self.sprite: AnimatedSprite = AnimatedSprite("assets/test_sprite/desc.json", animation_delay=10,
                                                      pos=(var.WIDTH // 2, var.HEIGTH // 2),scale=5)
@@ -91,16 +102,16 @@ class BuildingCity(Building):  # Zona de "civiles" TODO terminar
         self.image: pygame.Surface = self.get_surface()
         
     def render_population(self) -> Surface:
-        txt = str(self.population.get_count())
-        font:Font = pygame.font.SysFont("Cantarell", 12)
-        color = Color("#4052e8")
+        txt = f"pop: {int(self.population)}, Power: {self.power}"
+        font:Font = pygame.font.SysFont("Cantarell", 20)
+        color = Color("#FFFFFF")
         return render_text(txt,font,color)
 
     def get_surface(self) -> pygame.Surface: # renderiza la población encima del sprites
         font_surface = self.render_population()
         size1 = font_surface.get_size()
         size2 = self.sprite.image.get_rect().size
-        final_size = (size1[0] + size2[0],size1[1]+size2[1])
+        final_size = (size1[0] +size2[0],size2[1])
         obj = pygame.Surface(final_size)
         obj.blit(font_surface,(final_size[0]/2,0))
         obj.blit(self.sprite.image,size1)

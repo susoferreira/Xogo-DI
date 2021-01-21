@@ -17,7 +17,7 @@ class Game():
         pygame.font.init()
         
         self.window:pygame.Surface = pygame.display.set_mode((var.WIDTH, var.HEIGTH))
-        self.Building = Building.BuildingCity("jugador 1,1,100")
+        self.Building = Building.BuildingCity("jugador", 3,10000,1)
 
     def game_loop(self):
         done=False
@@ -42,11 +42,11 @@ class Game():
                 exit()
             if event.type == pygame.KEYDOWN:
                 if event.key ==K_UP:
-                    self.Building.max_population +=1
+                    self.Building.power +=1
                     
             if event.type == pygame.KEYDOWN:
                 if event.key ==K_DOWN:
-                    self.Building.max_population -=1
+                    self.Building.power -=1
                     if self.Building.max_population <= 0: self.Building.max_population = 1
 
 if __name__ =="__main__":
