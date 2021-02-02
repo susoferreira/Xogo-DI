@@ -1,15 +1,18 @@
-from Components.Building import Building
-from Base import AnimatedSprite
-   
+import pygame
 import var
-
+from Base.AnimatedSprite import AnimatedSprite
+from pygame import Surface
+from pygame.color import Color
+from pygame.font import Font
 from pygame.time import Clock
+from utils import merge_surfaces_centered, render_text
+
 
 class ShootingBuilding(GameComponent):
 
 
     def __init__(self, owner: str, power: float):# base class
-        """edificio que dispara proyectiles en la dirección del ratón
+        """clase "base para todos los edificios que disparan proyectiles"
 
         Args:
             owner (str): id del jugador que controla el edificio
@@ -21,23 +24,31 @@ class ShootingBuilding(GameComponent):
 
     def shoot():
         pass
-    def moveTowards(self,x,y):
-        dx, dy = (bx - ax, by - ay)
-        stepx, stepy = (dx / 24., dy / 25.)
+        
 
+    def render_text_on_top(self) -> Surface:
+        font_surface = self.render_po   wer()
+        obj = merge_surfaces_centered(font_surface, self.sprite.image)
+        return obj
+
+    def render_power(self) -> Surface:
+        txt = f"pop: {int(self.population)}, Power: {self.power}"
+        font: Font = pygame.font.SysFont("Cantarell", 20)
+        color = Color("#FFFFFF")
+        return render_text(txt, font, color)
 
 
     def update(self):
 
         self.sprite.update()
-        self.image = self.render_text_on_top()
+        self.image = 
         self.grow_population(1/var.FRAMERATE)
         super().update()
 
-class Projectile(object): #base class for all projectiles
+class Projectile(): #base class for all projectiles
     def __init__(self,sprite,vel):
-        self.sprite:animatedSprite
-        self.image = self.sprite.image
+        self.sprite:AnimatedSprite
+        self.image = self.sprite.image 
         self.vel:float 
     def shoot(self):
         pass

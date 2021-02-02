@@ -1,0 +1,21 @@
+{
+    "default_animation":"circ",
+    "default_image":"assets/Proyectil_1/proy_1.png",
+    "animations":
+    [
+        {
+            "name":"circ",
+            "frames":[
+                "assets/Proyectil_1/proy_1.png",
+                "assets/Proyectil_1/proy_2.png",
+                "assets/Proyectil_1/proy_3.png",
+                "assets/Proyectil_1/proy_4.png",
+                "assets/Proyectil_1/proy_5.png"
+
+            ]
+        }
+
+    ]
+
+
+}

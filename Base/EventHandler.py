@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Any, List, Tuple
 import pygame.event as event
 import pygame.constants as const
 
@@ -8,16 +8,16 @@ class EventHandler():# handler para eventos, puede asociar un evento con una fun
 
 
     class Subscription():
-        def __init__(self,event:event,func:function):
+        def __init__(self,event:int,func:Any):
             self.event:int = event
-            self.func:function = func
-
-    def subscribe(self,event,func):
-        self.subs.append(self.Subscription(event,func))
+            self.func:Any = func
 
 
     def __init__(self):
-        self.subs:List[self.Subscription]
+        self.subs:List[EventHandler.Subscription] =[]
+
+    def subscribe(self,event:int,func:"Any"):
+        self.subs.append(self.Subscription(event,func))
     
     def update(self):
         events = event.get()
@@ -33,30 +33,28 @@ class KeyboardHandler(): # handler solo para los eventos de teclado, se subscrib
 
 
     class Subscription():
-        def __init__(self,key:int,func:function,KEYDOWN=True):
+        def __init__(self,key:int,func:Any,keydown:bool =True):
             self.key:int = key
-            self.func:function = func
+            self.func:Any = func
             self.keydown=keydown
+    def __init__(self,eventHandler:EventHandler):
+        eventHandler.subscribe(const.KEYUP,self.handleKeyUp)
+        eventHandler.subscribe(const.KEYDOWN,self.handleKeyDown)
+        self.subs:List[KeyboardHandler.Subscription] = []
 
-        def subscribe(self,key,func):
+    def subscribe(self,key,func):
             self.subs.append(self.Subscription(key,func))
 
-        
-    def __init__(self,eventHandler:EventHandler):
-        self.EventHandler.subscribe(const.KEYUP,self.HandleKeyUp)
-        self.EventHandler.subscribe(const.KEYDOWN,self.HandleKeyDown)
-        self.subs:List[self.Subscription]
-    
     def handleKeyUp(self,event:event.Event):
-        self.handleKey(event)
+        self.HandleKey(event)
 
     def handleKeyDown(self,event:event.Event):
-        self.handleKey(event)
+        self.HandleKey(event)
 
     def HandleKey(self,event:event.Event):
 
         for sub in self.subs:
-            if sub.key == event.key:
-                ifsu
-                sub.func(event)
+            if sub.key == event.key: # di coincide la tecla con el evento
+                if event.type == const.KEYDOWN and sub.keydown or event.type == const.KEYDOWN and not sub.keydown:# si coincide el tipo de evento (keydown o keyup)
+                    sub.func(event)
 

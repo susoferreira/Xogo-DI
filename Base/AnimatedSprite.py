@@ -1,12 +1,13 @@
 import json
 from typing import Any, Dict, Tuple 
-from ..Base import AnimatedSprite
+from Base import AnimatedSprite 
 import pygame
+import pygame.transform
 
 
 class AnimatedSprite():
 
-    def __init__(self, sprite_route: str, animation_delay: int = 1, animate: bool = True, scale: float = 1, pos:  Tuple[int, int] = (0, 0)):
+    def __init__(self, sprite_route: str, animation_delay: int = 1, animate: bool = True, scale: float = 1, pos:  Tuple[int, int] = (0, 0),rotation:float = 0):
         """
 
         Args:
@@ -22,6 +23,7 @@ class AnimatedSprite():
         self.current_scaling: float = scale
         self.animate = animate
         self.sprite_route = sprite_route
+        self.rotation = rotation
         self.descriptor = Dict[str, Any]
         self.descriptor = self.get_descriptor()
         self.image: pygame.Surface = pygame.image.load(
@@ -47,12 +49,18 @@ class AnimatedSprite():
             if animation["name"] == self.animation_type:
                 for frame in animation["frames"]:
                     img = pygame.image.load(frame)
+                    # aplicar escalado
                     img = pygame.transform.scale(
                         img, (int(self.image.get_width()*scale), int(self.image.get_height() * scale)))
+                    #aplicar rotación
+                    img = pygame.transform.rotate(self.image,self.rotation)
                     imgs.append(img)
                 self.rect = imgs[0].get_rect()
         self.frames = imgs
 
+    def set_rotation(self,rotation:float):
+        self.rotation = rotation # cambiando atributo para que se aplique al cambiar de animación
+        self.frames = [pygame.transform.rotate(img,self.rotation) for img in self.frames] # aplicando el cambio de rotación a la animación actual
     def get_descriptor(self) -> Dict[str, Any]:
 
         with open(self.sprite_route) as descriptor:
@@ -75,8 +83,7 @@ class AnimatedSprite():
         self.load_animation(scale)
 
     def reset_scale(self):
-        self.frames = [pygame.transform.scale(
-            frame, self.original_scaling) for frame in self.frames]
+        self.frames = [pygame.transform.scale(frame, self.original_scaling) for frame in self.frames]
 
     def scale_by(self, scale: float):
         self.current_scaling *= scale

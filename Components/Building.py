@@ -57,7 +57,6 @@ class Building(GameComponent):  # superclase de todos los tipos de zona del jueg
         time_bias = 10  # para hacer el crecimiento más lento
         low_pop_bias = 0.001  # para aumentar el crecimiento cuando hay poca población
         max_admisible_pop = self.power/var.POPULATION_RESOURCE_COST
-        print(max_admisible_pop, self.population)
         inc = self.GROWTH_RATIO * count * \
             (1 - (count / max_admisible_pop)) * \
             time_step / time_bias + low_pop_bias
@@ -94,12 +93,12 @@ class BuildingCity(Building):  # Zona de "9civiles" TODO terminar
                                 pos=(var.WIDTH // 2, var.HEIGTH // 2), scale=5)
         super().__init__(owner, population, int(max_population * BuildingCity.POP_BONUS), power, sprite, GROWTH_RATIO=0.5)
         self.rect = self.sprite.rect
-        self.image: pygame.Surface = self.render_text_on_top()
+        self.image: Surface = self.render_text_on_top()
 
     def update(self):
         
         self.sprite.update()
-        self.image = merge_surfaces_centered()
+        self.image = merge_surfaces_centered(self.render_population(),self.sprite.image)
         self.grow_population(1/var.FRAMERATE)
         super().update()
 
