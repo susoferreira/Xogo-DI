@@ -15,7 +15,6 @@ class Game():
     def __init__(self):
         pygame.init()
         pygame.font.init()
-        
         self.window:pygame.Surface = pygame.display.set_mode((var.WIDTH, var.HEIGTH))
         self.Building = Building.BuildingCity("jugador", 3,10000,1)
 
@@ -37,6 +36,8 @@ class Game():
         pass
 
     def event_handler(self,events:List[pygame.event.Event]):
+        var.event_handler.subscribe(pygame.QUIT,exit)
+        var.keyboard_handler.sub
         for event in events:
             if event.type == pygame.QUIT:
                 exit()
