@@ -6,7 +6,7 @@ class GameComponent():
 
     def __init__(self):
         self.paused = False
-        
+
 
     
     def toggle_pause(self):
