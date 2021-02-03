@@ -1,12 +1,11 @@
 # pyright: reportMissingTypeStubs=true
-
+#https://opengameart.org/content/tower-defense-300-tilessprites
 from typing import List
 
 import pygame
 from pygame import event
 from pygame.constants import K_DOWN, K_LEFT, K_UP
 from pygame.surfarray import blit_array
-
 import Components.Building as Building
 import var
 from Base.GameState import GameState
@@ -20,8 +19,8 @@ class Game():
         self.window:pygame.Surface = pygame.display.set_mode((var.WIDTH, var.HEIGTH))
         self.Building = Building.BuildingCity("jugador", 3,10000,1)
         self.setupEvents()
-
     def game_loop(self):
+
         done=False
         clock = pygame.time.Clock()
         self.Building.sprite.rect.move_ip(var.HEIGTH/2,var.WIDTH/2)
@@ -44,12 +43,14 @@ class Game():
         var.event_handler.subscribe(pygame.QUIT,exit)
         var.keyboard_handler.subscribe(pygame.K_LEFT,self.move_left)
         var.keyboard_handler.subscribe(pygame.K_RIGHT,self.move_right)
+        var.mouse_handler.subscribe(self.Building.rect,self.printFunciona,)
 
     def move_left(self,event):
         self.Building.rect.move_ip(move_by=(1,0))
     def move_right(self,event):
         self.Building.rect.move_ip(move_by=(1,0))
-
+    def printFunciona(self,event):
+        print("EL EVENTO FUNCIONA")
     def event_handler(self):
         var.event_handler.update()
         

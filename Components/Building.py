@@ -92,7 +92,7 @@ class BuildingCity(Building):  # Zona de "9civiles" TODO terminar
         sprite = AnimatedSprite("assets/test_sprite/desc.json", animation_delay=10,
                                 pos=(var.WIDTH // 2, var.HEIGTH // 2), scale=5)
         super().__init__(owner, population, int(max_population * BuildingCity.POP_BONUS), power, sprite, GROWTH_RATIO=0.5)
-        self.rect = self.sprite.rect
+        self.rect:pygame.Rect = self.sprite.rect
         self.image: Surface = self.render_text_on_top()
 
     def update(self):
