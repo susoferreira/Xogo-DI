@@ -24,6 +24,8 @@ class Game():
     def game_loop(self):
         done=False
         clock = pygame.time.Clock()
+        self.Building.sprite.rect.move_ip(var.HEIGTH/2,var.WIDTH/2)
+
         while not done:
             clock.tick(60)
             self.update() 
@@ -39,12 +41,17 @@ class Game():
         pass
 
     def setupEvents(self):
-        var.keyboard_handler.subscribe(pygame.K_UP,self.printUp)
         var.event_handler.subscribe(pygame.QUIT,exit)
+        var.keyboard_handler.subscribe(pygame.K_LEFT,self.move_left)
+        var.keyboard_handler.subscribe(pygame.K_RIGHT,self.move_right)
+
+    def move_left(self,event):
+        self.Building.rect.move_ip(move_by=(1,0))
+    def move_right(self,event):
+        self.Building.rect.move_ip(move_by=(1,0))
 
     def event_handler(self):
         var.event_handler.update()
-
         
         #var.keyboard_handler.sub
         """for event in events:

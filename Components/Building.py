@@ -70,7 +70,7 @@ class Building(GameComponent):  # superclase de todos los tipos de zona del jueg
 
     def render_population(self) -> Surface:
         txt = f"pop: {int(self.population)}, Power: {self.power}"
-        font: Font = pygame.font.SysFont("Cantarell", 20)
+        font: Font = pygame.font.SysFont("Cantarell", 12)
         color = Color("#FFFFFF")
         return render_text(txt, font, color)
 

@@ -6,7 +6,6 @@ import pygame
 
 class EventHandler():# handler para eventos, puede asociar un evento con una función arbitraria
 
-
     class Subscription():
         def __init__(self,event:int,func:Any):
             self.event:int = event
@@ -18,7 +17,10 @@ class EventHandler():# handler para eventos, puede asociar un evento con una fun
 
     def subscribe(self,event:int,func:"Any"):
         self.subs.append(self.Subscription(event,func))
-    
+        
+    def unsubscribe (self,sub:"EventHandler.Subscription"):
+        self.subs.remove(sub)
+
     def update(self):
         events = event.get()
         eventTypes = [event.type for event in events]
@@ -45,6 +47,9 @@ class KeyboardHandler(): # handler solo para los eventos de teclado, se subscrib
     def subscribe(self,key,func):
             self.subs.append(self.Subscription(key,func))
 
+    def unsubscribe (self,sub:"EventHandler.Subscription"):
+        self.subs.remove(sub)
+
     def handleKeyUp(self,event:event.Event):
         self.HandleKey(event)
 
@@ -54,7 +59,7 @@ class KeyboardHandler(): # handler solo para los eventos de teclado, se subscrib
     def HandleKey(self,event:event.Event):
 
         for sub in self.subs:
-            if sub.key == event.key: # di coincide la tecla con el evento
+            if sub.key == event.key: # si coincide la tecla con el evento
                 if event.type == const.KEYDOWN and sub.keydown or event.type == const.KEYDOWN and not sub.keydown:# si coincide el tipo de evento (keydown o keyup)
                     sub.func(event)
 
