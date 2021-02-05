@@ -45,8 +45,8 @@ class KeyboardHandler(): # handler solo para los eventos de teclado, se subscrib
         eventHandler.subscribe(const.KEYDOWN,self.handleKeyDown)
         self.subs:List[KeyboardHandler.Subscription] = []
 
-    def subscribe(self,key,func):
-            self.subs.append(self.Subscription(key,func))
+    def subscribe(self,key:int,func:Any,keydown:bool =True,mod:int = None):
+            self.subs.append(self.Subscription(key,func,keydown,mod))
 
     def unsubscribe (self,sub:"KeyboardHandler.Subscription"):
         self.subs.remove(sub)
@@ -61,10 +61,12 @@ class KeyboardHandler(): # handler solo para los eventos de teclado, se subscrib
 
         for sub in self.subs:
             if sub.key == event.key: # si coincide la tecla con el evento
-                if event.type == const.KEYDOWN and sub.keydown or event.type == const.KEYDOWN and not sub.keydown:# si coincide el tipo de evento (keydown o keyup)
-                    if sub.mod is not None and sub.mod == event.mod:
+                if event.type == const.KEYDOWN and sub.keydown or event.type == const.KEYUP and not sub.keydown:# si coincide el tipo de evento (keydown o keyup)
+                    if sub.mod is None:
                         sub.func(event)
-    
+                    elif sub.mod is not None and sub.mod == event.mod:
+                        sub.func(event)
+                    
 class MouseHandler():# handler para eventos, puede asociar un evento con una función arbitraria
 
     class Subscription():
@@ -84,7 +86,7 @@ class MouseHandler():# handler para eventos, puede asociar un evento con una fun
         eventHandler.subscribe(const.MOUSEMOTION,self.handleMouseMotion)
 
     def subscribe(self,rect:pygame.Rect,func:"Any",mode:int = pygame.MOUSEBUTTONDOWN, button:int = pygame.BUTTON_LEFT):
-        self.subs.append(self.Subscription(rect,func))
+        self.subs.append(self.Subscription(rect,func,mode,button))
         
     def unsubscribe (self,sub:"MouseHandler.Subscription"):
         self.subs.remove(sub)
@@ -103,6 +105,6 @@ class MouseHandler():# handler para eventos, puede asociar un evento con una fun
         mouse=event.pos       
         for sub in self.subs:
             if sub.mode == event.type: # los valores de sub.mode se corresponden con los valores de event.type
+
                 if sub.rect.collidepoint(mouse):
-                    if sub.button == event.button:
-                        sub.func()
+                        sub.func(event)

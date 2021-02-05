@@ -3,6 +3,7 @@ from typing import Any, Dict, Tuple
 from Base import AnimatedSprite 
 import pygame
 import pygame.transform
+from pygame import Color
 import var
 
 class AnimatedSprite():
@@ -28,7 +29,7 @@ class AnimatedSprite():
         self.descriptor = self.get_descriptor()
         self.image: pygame.Surface = pygame.image.load(
             self.get_descriptor()["default_image"])
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_bounding_rect()
         self.size = self.image.get_bounding_rect().size
         self.set_position(pos)
 
@@ -43,7 +44,7 @@ class AnimatedSprite():
 
     def load_animation(self, scale: float):
 
-        imgs = []
+        imgs =[]
         for animation in self.get_descriptor()["animations"]:
             if animation["name"] == self.animation_type:
                 for frame in animation["frames"]:
@@ -54,7 +55,7 @@ class AnimatedSprite():
                     #aplicar rotación
                     img = pygame.transform.rotate(img,self.rotation)
                     imgs.append(img)
-                self.rect = imgs[0].get_rect()
+                self.rect = imgs[0].get_bounding_rect()
         self.frames = imgs
 
     def set_rotation(self,rotation:float):
