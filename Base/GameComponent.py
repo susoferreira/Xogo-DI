@@ -1,7 +1,6 @@
 from abc import abstractmethod
-from typing import Any, Dict
 
-from pygame import Surface,Rect
+from pygame import Surface, Rect
 
 
 class GameComponent():

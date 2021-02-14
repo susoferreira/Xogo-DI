@@ -1,14 +1,17 @@
 import pygame
-import var
-from Base.AnimatedSprite import AnimatedSprite
+import pygame.event
 from pygame import Surface
 from pygame.color import Color
 from pygame.font import Font
-from pygame.time import Clock
-from utils import merge_surfaces_centered, render_text
-from Base.Menu import Menu
-import pygame.event
+
 import Base.GameComponent
+import game
+import var
+from Base.AnimatedSprite import AnimatedSprite
+from Components.Menu import Menu
+from utils import merge_surfaces_centered, render_text
+
+
 class Tower(Base.GameComponent.GameComponent):
 
 
@@ -20,19 +23,23 @@ class Tower(Base.GameComponent.GameComponent):
         """
         self.sprite:AnimatedSprite = AnimatedSprite("assets/test_sprite/desc.json", animation_delay=9,
                                 pos=(var.WIDTH // 1, var.HEIGTH // 2), scale=5) # test sprite
+        self.image = self.sprite.image
         self.power = power
         self.rect = self.sprite.rect
         self.menu = Menu(self,self.rect.x,self.rect.y, var.menu_bg, [2000, "MAX"])
         self.selected:bool = False # decide si mostrar o no el menú
         self.menu.add_btn(var.menu_button,"upgrade")
         self.damage:int
-        var.mouse_handler.subscribe(self.rect,self.clicked) # cuando se pulse dentro del Rectangulo de la torre se ejecutará la función self.clicked(event)
-        
+        self.subSelect = var.mouse_handler.subscribe(self.rect,self.select) # cuando se pulse dentro del Rectangulo de la torre se ejecutará la función self.clicked(event)
+        self.subUnselect =var.keyboard_handler.subscribe(pygame.K_ESCAPE,self.unselect)
+    
     def shoot(self):
         pass
-    def clicked(self,event: pygame.event):
+
+    def select(self,event: pygame.event):
         self.selected = True
-        
+    def unselect(self,event):
+        self.selected=False
     def render_text_on_top(self) -> Surface:
         font_surface = self.render_power()
         obj = merge_surfaces_centered(font_surface, self.sprite.image)
@@ -46,10 +53,11 @@ class Tower(Base.GameComponent.GameComponent):
 
     def update(self):
         self.sprite.update()
-        self.image = self.render_text_on_top()
-#        self.rect = self.image.get_rect().move(self.rect.x,self.rect.y)
         if self.selected:
             self.menu.update()
+            self.image = self.sprite.image
+        else:
+            self.image = self.render_text_on_top()# si está seleccionado no renderizar el texto
             
         super().update()
 

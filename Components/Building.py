@@ -1,14 +1,14 @@
-from typing import Any, List, Dict, Tuple
-from utils import render_text, merge_surfaces_centered
-from pygame.font import Font
+from typing import List
+
 import pygame
 from pygame.color import Color
+from pygame.font import Font
 from pygame.surface import Surface
-from pygame.transform import scale
 
 import var
 from Base.AnimatedSprite import AnimatedSprite
 from Base.GameComponent import GameComponent
+from utils import render_text, merge_surfaces_centered
 
 
 class Building(GameComponent):  # superclase de todos los tipos de zona del juego

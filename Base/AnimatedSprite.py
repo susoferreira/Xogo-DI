@@ -1,10 +1,9 @@
 import json
-from typing import Any, Dict, Tuple 
-from Base import AnimatedSprite 
+from typing import Any, Dict, Tuple
+
 import pygame
 import pygame.transform
-from pygame import Color
-import var
+
 
 class AnimatedSprite():
 
@@ -43,6 +42,7 @@ class AnimatedSprite():
             self.load_animation(self.original_scaling)
 
     def load_animation(self, scale: float):
+
 
         imgs =[]
         for animation in self.get_descriptor()["animations"]:

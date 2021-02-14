@@ -8,7 +8,7 @@ def render_text(text: str, font: Font, color: Color) -> Surface:
     return font.render(text, True, color)
 
 
-def merge_surfaces_centered(top: Surface, bottom: Surface) -> Surface: #TODO arreglar centrado usando .get_rect(center=)
+def merge_surfaces_centered(top: Surface, bottom: Surface) -> Surface:
 
     size1 = top.get_size()
     size2 = bottom.get_rect().size
