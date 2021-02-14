@@ -76,6 +76,7 @@ class Menu:
     menu for holding items
     """
     def __init__(self, tower, x, y, img, item_cost):
+        self.image:pygame.Surface
         self.x = x
         self.y = y
         self.width = img.get_width()
@@ -117,6 +118,9 @@ class Menu:
             #win.blit(star, (item.x + item.width + 5, item.y-9))
             text = self.font.render("texto del menú", 1, (255,255,255))
             self.image.blit(text, (item.x + item.width + 30 - text.get_width()/2, item.y + star.get_height() -8))
+            for btn in self.buttons:
+                btn.update()
+
 
     def get_clicked(self, X, Y):
         """
@@ -130,15 +134,6 @@ class Menu:
                 return btn.name
 
         return None
-
-    def update(self):
-        """
-        update menu and button location
-        :return: None
-        """
-        for btn in self.buttons:
-            btn.update()
-
 
 class VerticalMenu(Menu):
     """
