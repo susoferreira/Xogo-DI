@@ -48,7 +48,7 @@ class AnimatedSprite():
         for animation in self.get_descriptor()["animations"]:
             if animation["name"] == self.animation_type:
                 for frame in animation["frames"]:
-                    img = pygame.image.load(frame)
+                    img = pygame.image.load(frame).convert_alpha()
                     # aplicar escalado
                     img = pygame.transform.scale(
                         img, (int(self.image.get_width()*scale), int(self.image.get_height() * scale)))
