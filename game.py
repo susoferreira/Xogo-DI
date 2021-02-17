@@ -48,7 +48,6 @@ class Game():
             clock.tick(60)
             self.update()
             self.window.fill("#000000")
-            #self.window.blit(self.tower.image,self.tower.rect)
             var.component_drawer.draw(self.window)
             pygame.display.flip()
 
