@@ -30,7 +30,7 @@ class Tower(Base.GameComponent.GameComponent):
         self.selected:bool = False # decide si mostrar o no el menú
         self.menu.add_btn(var.menu_button,"upgrade")
         self.damage:int
-        self.subSelect = var.mouse_handler.subscribe(self.rect,self.select) # cuando se pulse dentro del Rectangulo de la torre se ejecutará la función self.clicked(event)
+        self.subSelect = var.mouse_handler.subscribe(self.rect,self.select) # cuando se pulse dentro del Rectangulo de la torre se ejecutará la función self.select(event)
         self.subUnselect =var.keyboard_handler.subscribe(pygame.K_ESCAPE,self.unselect)
     
     def shoot(self):
@@ -40,8 +40,10 @@ class Tower(Base.GameComponent.GameComponent):
         self.selected = True
     def unselect(self,event):
         self.selected=False
+        
     def render_text_on_top(self) -> Surface:
         font_surface = self.render_power()
+        font_surface.set_alpha(200)
         obj = merge_surfaces_centered(font_surface, self.sprite.image)
         return obj
 
@@ -49,7 +51,8 @@ class Tower(Base.GameComponent.GameComponent):
         txt = f"Power: {self.power}"
         font: Font = pygame.font.SysFont("Cantarell", 20)
         color = Color("#FFFFFF")
-        return render_text(txt, font, color)
+        background_color=Color(5,5,5)
+        return render_text(txt, font, color,background_color)
 
     def update(self):
         self.sprite.update()

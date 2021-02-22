@@ -16,7 +16,8 @@ class TileMap(gc.GameComponent):
             self.x = x
             self.y = y
 
-    def __init__(self,file:str,size:Tuple[int,int]): 
+    def __init__(self,file:str,size:Tuple[int,int]):
+        self.rect = []
         self.debug =False # si debug es true dibuja las colisiones
         self.tmx_data = load_pygame(file)
         self.layers =self.tmx_data.visible_layers
@@ -102,9 +103,10 @@ class TileMap(gc.GameComponent):
 
         return image
     def set_size(self,size:Tuple[int,int]):
+
         self.size = size
         self.create_tiles()
-        self.render_tiles()
+        self.image = self.render_tiles()
         
 if __name__ =="__main__":
     pg.init()
