@@ -14,7 +14,6 @@ class TowerPlacer():
     def __init__(self, components: List[GameComponent]) -> None:
         self.tower: Tower
         self.components = components
-        self.sub = "inicializada así"
         self.is_placing: bool = False
 
     def place_tower(self, tower):
@@ -24,8 +23,7 @@ class TowerPlacer():
         self.tower = tower
         self.components.append(self.tower)
         self.tower.sprite.rect.center = mouse.get_pos()
-        var.component_drawer.addComponent(self.tower, 0)
-        self.tower.selected = True
+        self.tower.is_selected = True
         print("suscripción antes de crearla:", self.sub)
         self.sub = var.mouse_handler.subscribe(None, self.move_tower_to_mouse, mode=pygame.MOUSEMOTION,
                                                button=None)  # cada vez que se mueva el ratón mover la torre al ratón
@@ -37,10 +35,10 @@ class TowerPlacer():
 
     def finish_placing(self, event: Event):
         print("suscripción recibida:", self.sub)
-        self.tower.selected = False
+        self.tower.is_selected = False
         var.mouse_handler.unsubscribe(self.sub)
         self.sub = "asdasd"
         self.is_placing = False
 
     def move_tower_to_mouse(self, event: Event):
-        self.tower.rect.center = event.pos
+        self.tower.sprite.rect.center = event.pos
