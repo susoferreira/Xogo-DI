@@ -18,7 +18,11 @@ class TileMap(gc.GameComponent):
 
     def __init__(self,file:str,size:Tuple[int,int]):
         self.rect = []
-        self.debug =False # si debug es true dibuja las colisiones
+        
+        
+        self.debug =True # si debug es true dibuja las colisiones
+        
+        
         self.tmx_data = load_pygame(file)
         self.layers =self.tmx_data.visible_layers
         self.size = size
@@ -66,14 +70,17 @@ class TileMap(gc.GameComponent):
                         img = pygame.transform.scale(img,self.size) # escalar imágen al tamaño adecuado
                         props = (self.tmx_data.get_tile_properties_by_gid(gid)) # conseguir props de tile
                         if props:
-                            colliders = props["colliders"]# conseguir los colliders
-                            if colliders:
-                                collider_rects = [Rect(collider.x*scale[0]
-                                                       ,collider.y*scale[1]
-                                                       ,collider.width*scale[0]
-                                                       ,(collider.height+collider.y)*scale[1]-collider.y*scale[1]
-                                )
-                                                  for collider in colliders] #pasar colliders a lista de Rect para pygame, ajustados al escalado
+                            try:
+                                colliders = props["colliders"]# conseguir los colliders
+                                if colliders:
+                                    collider_rects = [Rect(collider.x*scale[0]
+                                                        ,collider.y*scale[1]
+                                                        ,collider.width*scale[0]
+                                                        ,(collider.height+collider.y)*scale[1]-collider.y*scale[1]
+                                    )
+                                                    for collider in colliders] #pasar colliders a lista de Rect para pygame, ajustados al escalado
+                            except KeyError:
+                                print("no hay colliders")
                         self.tiles.append(TileMap.Tile(img,collider_rects,x,y))
 
 
