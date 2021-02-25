@@ -1,6 +1,7 @@
 
 from pygame import Surface
-from Base.EventHandler import event_handler,keyboard_handler,mouse_handler
+import pygame
+from Base.EventHandler import event_handler,keyboard_handler,mouse_handler,collision_handler
 from Base.ComponentDrawer import component_drawer
 FRAMERATE = 60
 WIDTH = 800
@@ -12,3 +13,5 @@ menu_bg.fill("#b6bff7")
 
 menu_button = Surface((5,5))
 menu_button.fill("#630d22")
+
+alpha_frame = Surface((WIDTH,HEIGTH),flags=pygame.SRCALPHA)
