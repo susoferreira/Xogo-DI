@@ -1,5 +1,6 @@
 import json
 from typing import Any, Dict, Tuple
+from utils import load_image_without_empty_space
 
 import pygame
 import pygame.transform
@@ -26,10 +27,10 @@ class AnimatedSprite():
         self.rotation = rotation
         self.descriptor = Dict[str, Any]
         self.descriptor = self.get_descriptor()
-        self.image: pygame.Surface = pygame.image.load(
+        self.image: pygame.Surface = load_image_without_empty_space(
             self.get_descriptor()["default_image"])
-        self.rect = self.image.get_bounding_rect()
-        self.size = self.image.get_bounding_rect().size
+        self.rect = self.image.get_rect()
+        self.size = self.rect.size
         self.set_position(pos)
 
         # animation
@@ -48,7 +49,7 @@ class AnimatedSprite():
         for animation in self.get_descriptor()["animations"]:
             if animation["name"] == self.animation_type:
                 for frame in animation["frames"]:
-                    img = pygame.image.load(frame).convert_alpha()
+                    img = load_image_without_empty_space(frame)
                     # aplicar escalado
                     img = pygame.transform.scale(
                         img, (int(self.image.get_width()*scale), int(self.image.get_height() * scale)))
@@ -87,7 +88,6 @@ class AnimatedSprite():
 
     def scale_by(self, scale: float):
         self.current_scaling *= scale
-        #print("Escalado:", self.current_scaling)
         self.load_animation(scale)
 
     def set_animation(self, animation: str):
