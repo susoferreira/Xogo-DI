@@ -1,4 +1,3 @@
-from game import Game
 from typing import Any, List
 
 import pygame
@@ -104,11 +103,7 @@ class MouseHandler():
         return sub
 
     def unsubscribe(self, sub: "MouseHandler.Subscription"):
-        if sub in self.subs:
-            print("está")
-        else:
-            print(sub)
-            print(self.subs)
+
         self.subs.remove(sub)
 
     # event es MOUSEBUTTONDOWN,MOUSEBUTTONUP
@@ -117,7 +112,7 @@ class MouseHandler():
         mouse = event.pos
         for sub in self.subs:
             if sub.mode == event.type:  # los valores de sub.mode se corresponden con los valores de event.type
-                if sub.rect.collidepoint(mouse):
+                if  sub.rect is None or sub.rect.collidepoint(mouse):
                     if sub.button == event.button:
                         sub.func(event)
                     if sub.one_time:  # si one_time es True la subscripción  se elimina después del primer uso
@@ -156,7 +151,7 @@ class CollisionHandler():  # handler para eventos, puede asociar un evento con u
                 name (str): nombre del grupo
             """
             self.name = name
-            self.items: List[Base.GameComponent.GameComponent]
+            self.items: List[Base.GameComponent.GameComponent] =[]
             
     def __init__(self):
         self.groups: List[CollisionHandler.Group] = []
@@ -190,7 +185,7 @@ class CollisionHandler():  # handler para eventos, puede asociar un evento con u
         Returns:
             bool:
         """
-        if self.collide_with(component,group_name) !=-1:
+        if self.collide_with(component,group_name) is not None:
             return True
         return False
         
@@ -207,9 +202,15 @@ class CollisionHandler():  # handler para eventos, puede asociar un evento con u
         group = self.find_group_by_name(group_name)
         if group:
             for item in group.items:
-                for rect in component.rect:
-                    rect.collidelist(item.rect)
-                    return component
+                if type(component.rect) == type([]):
+                    for rect in component.rect:
+                        if rect.collidelist(item.rect) !=-1:
+                            return component
+                else:
+                    if component.rect.collidelist(item.rect) !=-1:
+                        return component
+        else:
+            raise Exception("no existe el grupo")
         return None
     def create_group(self, group_name: str):
 
