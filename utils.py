@@ -10,7 +10,10 @@ def render_text(text: str, font: Font, color: Color,background_color:Color=None)
     else:
         return font.render(text, True, color)
 
-
+def load_image_without_empty_space(path:str) ->Surface:
+    image = pygame.image.load(path)
+    return image.subsurface(image.get_bounding_rect())
+    
 def merge_surfaces_centered(top: Surface, bottom: Surface) -> Surface:
 
     size1 = top.get_size()
@@ -19,6 +22,6 @@ def merge_surfaces_centered(top: Surface, bottom: Surface) -> Surface:
     obj = pygame.Surface(final_size,flags=pygame.SRCALPHA)
     rect_top = top.get_rect()
     rect_top.centerx = final_size[0]//2
-    obj.blit(top,rect_top.topleft)
     obj.blit(bottom,bottom.get_rect())
+    obj.blit(top,rect_top.topleft)
     return obj

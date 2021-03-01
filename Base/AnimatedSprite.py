@@ -29,6 +29,7 @@ class AnimatedSprite():
         self.descriptor = self.get_descriptor()
         self.image: pygame.Surface = load_image_without_empty_space(
             self.get_descriptor()["default_image"])
+        
         self.rect = self.image.get_rect()
         self.size = self.rect.size
         self.set_position(pos)

@@ -27,12 +27,13 @@ class EventHandler():  # handler para eventos, puede asociar un evento con una f
 
     def update(self):
         events = event.get()
-        eventTypes = [event.type for event in events]
+
+
         for sub in self.subs:
-            try:
-                sub.func(events[eventTypes.index(sub.event)])
-            except ValueError:
-                pass
+            for evento in events:
+                if sub.event == evento.type:
+                    sub.func(evento)
+
 
 
 class KeyboardHandler():
@@ -52,7 +53,7 @@ class KeyboardHandler():
         self.subs: List[KeyboardHandler.Subscription] = []
 
     def subscribe(self, key: int, func: Any, keydown: bool = True, mod: int = None, one_time=False) -> 'KeyboardHandler.Subscription':
-        sub = self.Subscription(key, func, keydown, mod)
+        sub = self.Subscription(key, func, keydown, mod,one_time)
         self.subs.append(sub)
         return sub
 
@@ -60,7 +61,6 @@ class KeyboardHandler():
         self.subs.remove(sub)
 
     def handleKey(self, event: event.Event):
-
         for sub in self.subs:
             if sub.key == event.key:  # si coincide la tecla con el evento
                 # si coincide el tipo de evento (keydown o keyup)
@@ -68,6 +68,7 @@ class KeyboardHandler():
                     if sub.mod is None:
                         sub.func(event)
                         if sub.one_time:  # si one_time es True la subscripción  se elimina después del primer uso
+                            print("eliminando one_time")
                             self.subs.remove(sub)
                     elif sub.mod is not None and sub.mod == event.mod:
                         sub.func(event)
@@ -100,10 +101,11 @@ class MouseHandler():
     def subscribe(self, rect: pygame.Rect, func: "Any", mode: int = pygame.MOUSEBUTTONDOWN, button: int = pygame.BUTTON_LEFT, one_time=False) -> 'MouseHandler.Subscription':
         sub = self.Subscription(rect, func, mode, button, one_time)
         self.subs.append(sub)
+        print("mouse handler, creando subscripción",sub)
         return sub
 
     def unsubscribe(self, sub: "MouseHandler.Subscription"):
-
+        print("eliminando",sub)
         self.subs.remove(sub)
 
     # event es MOUSEBUTTONDOWN,MOUSEBUTTONUP

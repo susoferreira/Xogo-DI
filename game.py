@@ -39,6 +39,9 @@ class Player():
         self.is_placing = False
         self.sub_complete_placement = ""
         self.sub_cancel_placement = ""
+        self.sub_finish_placement = ""
+        var.keyboard_handler.subscribe(pygame.K_ESCAPE,self.unselect_tower)
+
         """used for tower placing, storing temporal variables"""
         ###
         # self.menu ????
@@ -62,6 +65,7 @@ class Player():
             self.selected_tower = None
         
     def place_tower(self, tower):
+
         if self.is_placing:
             return False
         self.is_placing = True
@@ -77,9 +81,9 @@ class Player():
 
         self.sub_cancel_placement = var.mouse_handler.subscribe(
             None, self.cancel_placing, mode=pygame.MOUSEBUTTONDOWN, button=pygame.BUTTON_RIGHT)  # click derecho para cancelar placement
-        var.keyboard_handler.subscribe(
-            pygame.K_r, self.finish_placing, one_time=True)
-        var.keyboard_handler.subscribe(pygame.K_ESCAPE,self.unselect_tower)
+        
+        self.sub_finish_placement = var.keyboard_handler.subscribe(
+            pygame.K_r, self.finish_placing)
         return True
 
     def finish_placing(self, event: Event):
@@ -90,18 +94,19 @@ class Player():
             tower_tmp, event))  # cuando haya un click derecho en la torre, seleccionarla
         # (usa una función parcial)
         self.current_placing_tower.is_selected = False
-        self.is_placing = False
         self._cleanup_placing()
 
     def cancel_placing(self):
         self.current_placing_tower.kill()
-        self.is_placing = False
         self._cleanup_placing()
 
     def _cleanup_placing(self):
+        print("cleanup_placing")
+        self.is_placing = False
         self.current_placing_tower.is_placing = False
         var.mouse_handler.unsubscribe(self.sub_complete_placement)
         var.mouse_handler.unsubscribe(self.sub_cancel_placement)
+        var.keyboard_handler.unsubscribe(self.sub_finish_placement)
 
     def _move_tower_to_mouse(self, event: Event):
         self.current_placing_tower.sprite.rect.center = event.pos
@@ -159,7 +164,6 @@ class Game():
         tower = Tower.Tower(10,300)
         if(not self.player.place_tower(tower)):
             tower.kill()
-            print("no se puede colocar más de una torre a la vez")
 
     def exit_game(self, event):
         exit()

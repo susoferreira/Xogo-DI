@@ -80,7 +80,7 @@ class TileMap(gc.GameComponent):
                                     )
                                                     for collider in colliders] #pasar colliders a lista de Rect para pygame, ajustados al escalado
                             except KeyError:
-                                print("no hay colliders")
+                                pass
                         self.tiles.append(TileMap.Tile(img,collider_rects,x,y))
 
 

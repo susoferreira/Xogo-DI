@@ -19,6 +19,7 @@ class Tower(Base.GameComponent.GameComponent):
         Args:
             power(float): cantidad de "recursos" que tiene un edificio
         """
+        print("creando torre")
         self.sprite:AnimatedSprite = AnimatedSprite("assets/test_sprite/desc.json", animation_delay=9,
                                 pos=(var.WIDTH // 1, var.HEIGTH // 2), scale=3) # test sprite
         self.rect = self.sprite.rect
