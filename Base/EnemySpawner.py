@@ -28,6 +28,8 @@ class EnemySpawner(): # genera rondas aleatoriamente
             print("la ronda actual aún no ha acabado")
             return
         print("empezando ronda:",self.current_round)
+        if self.current_round == len(self.enemy_count):
+            print("¡Felicidades, Has acabado todas las rondas que existen por el momento!")
         self.current_round +=1
         spawner = threading.Thread(target=self.spawn_enemies)
         spawner.start()
