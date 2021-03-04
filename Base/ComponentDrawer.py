@@ -30,6 +30,8 @@ class ComponentDrawer():
     
     def draw(self,screen:Surface):
         for sub in self.subs:
+            if sub.component.is_deleted:
+                self.subs.remove(sub)
             screen.blit(sub.component.image,sub.rect)
 
     def removeSubscription(self,sub:'ComponentDrawer.Subscription'):

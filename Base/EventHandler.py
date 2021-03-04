@@ -68,7 +68,6 @@ class KeyboardHandler():
                     if sub.mod is None:
                         sub.func(event)
                         if sub.one_time:  # si one_time es True la subscripción  se elimina después del primer uso
-                            print("eliminando one_time")
                             self.subs.remove(sub)
                     elif sub.mod is not None and sub.mod == event.mod:
                         sub.func(event)
@@ -101,11 +100,9 @@ class MouseHandler():
     def subscribe(self, rect: pygame.Rect, func: "Any", mode: int = pygame.MOUSEBUTTONDOWN, button: int = pygame.BUTTON_LEFT, one_time=False) -> 'MouseHandler.Subscription':
         sub = self.Subscription(rect, func, mode, button, one_time)
         self.subs.append(sub)
-        print("mouse handler, creando subscripción",sub)
         return sub
 
     def unsubscribe(self, sub: "MouseHandler.Subscription"):
-        print("eliminando",sub)
         self.subs.remove(sub)
 
     # event es MOUSEBUTTONDOWN,MOUSEBUTTONUP
@@ -157,7 +154,11 @@ class CollisionHandler():  # handler para eventos, puede asociar un evento con u
             
     def __init__(self):
         self.groups: List[CollisionHandler.Group] = []
-
+    def update(self):
+        for group in self.groups:
+            for item in group.items:
+                if item.is_deleted:
+                    group.items.remove(item)
     def add_item_to_group(self, item: Base.GameComponent.GameComponent, group_name: str):
         """Añade un GameComponent a un  grupo de colisión
 

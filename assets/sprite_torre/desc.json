@@ -1,0 +1,16 @@
+{
+    "default_animation":"static",
+    "default_image":"assets/sprite_torre/torre.png",
+    "animations":
+    [
+        {
+            "name":"static",
+            "frames":[
+				"assets/sprite_torre/torre.png"
+            ]
+        }
+
+    ]
+
+
+}

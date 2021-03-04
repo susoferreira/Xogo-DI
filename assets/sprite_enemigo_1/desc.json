@@ -1,0 +1,16 @@
+{
+    "default_animation":"static",
+    "default_image":"assets/sprite_enemigo_1/enemigo.png",
+    "animations":
+    [
+        {
+            "name":"static",
+            "frames":[
+				"assets/sprite_enemigo_1/enemigo.png"
+            ]
+        }
+
+    ]
+
+
+}

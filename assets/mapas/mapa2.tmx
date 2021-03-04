@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="64" tileheight="64" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="71">
  <tileset firstgid="1" source="tileset 1.tsx"/>
  <layer id="1" name="Capa de patrones 1" width="40" height="40">
   <data encoding="csv">
@@ -89,4 +89,78 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,137,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="6" name="path">
+  <object id="44" x="18.6667" y="221.333">
+   <point/>
+  </object>
+  <object id="45" x="532" y="232">
+   <point/>
+  </object>
+  <object id="46" x="1932" y="232">
+   <point/>
+  </object>
+  <object id="47" x="1960" y="248">
+   <point/>
+  </object>
+  <object id="48" x="2000" y="280">
+   <point/>
+  </object>
+  <object id="52" x="2012.12" y="1166.67">
+   <point/>
+  </object>
+  <object id="53" x="1969.7" y="1209.09">
+   <point/>
+  </object>
+  <object id="54" x="1890.91" y="1239.39">
+   <point/>
+  </object>
+  <object id="55" x="1127.27" y="1254.55">
+   <point/>
+  </object>
+  <object id="56" x="1018.18" y="1221.21">
+   <point/>
+  </object>
+  <object id="57" x="960.606" y="1172.73">
+   <point/>
+  </object>
+  <object id="58" x="924.242" y="706.061">
+   <point/>
+  </object>
+  <object id="59" x="884.848" y="666.667">
+   <point/>
+  </object>
+  <object id="60" x="736.364" y="615.152">
+   <point/>
+  </object>
+  <object id="61" x="545.455" y="609.091">
+   <point/>
+  </object>
+  <object id="62" x="472.727" y="645.455">
+   <point/>
+  </object>
+  <object id="63" x="436.364" y="730.303">
+   <point/>
+  </object>
+  <object id="64" x="403.03" y="1636.36">
+   <point/>
+  </object>
+  <object id="65" x="472.727" y="1678.79">
+   <point/>
+  </object>
+  <object id="66" x="524.242" y="1678.79">
+   <point/>
+  </object>
+  <object id="67" x="1945.45" y="1663.64">
+   <point/>
+  </object>
+  <object id="68" x="2039.39" y="1675.76">
+   <point/>
+  </object>
+  <object id="69" x="2087.88" y="1718.18">
+   <point/>
+  </object>
+  <object id="70" x="2078.79" y="2548.48">
+   <point/>
+  </object>
+ </objectgroup>
 </map>
