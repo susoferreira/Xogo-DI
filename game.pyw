@@ -1,6 +1,11 @@
 # pyright: reportMissingTypeStubs=true
 # https://opengameart.org/content/tower-defense-300-tilessprites
 
+from Components.Notification import Notification
+from Components.Interfaz import Interfaz
+from Base.EnemySpawner import EnemySpawner
+from Base.AnimatedSprite import AnimatedSprite
+from Components.Enemy import Enemy
 from Mapping.TiledParser import TileMap
 from pygame import Color, Rect, mouse
 from typing import List
@@ -43,9 +48,8 @@ class Player():
         var.keyboard_handler.subscribe(pygame.K_ESCAPE,self.unselect_tower)
 
         """used for tower placing, storing temporal variables"""
-        ###
-        # self.menu ????
-        ###
+
+        self.tower_cost = 30
         self.towers: List[Tower.Tower] = []
         self.selected_tower: 'Tower.Tower|None' = None
         # cuando haya un click del ratón comprobar
@@ -65,7 +69,9 @@ class Player():
             self.selected_tower = None
         
     def place_tower(self, tower):
-
+        if var.dinero <self.tower_cost:
+            Notification(f"No tienes dinero suficiente ({self.tower_cost})")
+            return
         if self.is_placing:
             return False
         self.is_placing = True
@@ -80,7 +86,7 @@ class Player():
                                                                   button=None)  # cada vez que se mueva el ratón mover la torre al ratón
 
         self.sub_cancel_placement = var.mouse_handler.subscribe(
-            None, self.cancel_placing, mode=pygame.MOUSEBUTTONDOWN, button=pygame.BUTTON_RIGHT)  # click derecho para cancelar placement
+            None, self._cancel_placing, mode=pygame.MOUSEBUTTONDOWN, button=pygame.BUTTON_RIGHT)  # click derecho para cancelar placement
         
         self.sub_finish_placement = var.keyboard_handler.subscribe(
             pygame.K_r, self.finish_placing)
@@ -89,6 +95,7 @@ class Player():
     def finish_placing(self, event: Event):
         if var.collision_handler.is_colliding_with(self.current_placing_tower,"mapa"):
             return
+        var.dinero -=self.tower_cost
         tower_tmp = self.current_placing_tower ## hay que usar tower_tmp porque self.current_placing_tower se redefine  y siempre se seleccionaría la ultima torre colocada
         var.mouse_handler.subscribe(self.current_placing_tower.sprite.rect, lambda event: self.select_tower(
             tower_tmp, event))  # cuando haya un click derecho en la torre, seleccionarla
@@ -96,12 +103,13 @@ class Player():
         self.current_placing_tower.is_selected = False
         self._cleanup_placing()
 
-    def cancel_placing(self):
+    def _cancel_placing(self,event):
         self.current_placing_tower.kill()
-        self._cleanup_placing()
+        self._cleanup_placing()        
+        self.towers.remove(self.current_placing_tower)
+        del self.current_placing_tower
 
     def _cleanup_placing(self):
-        print("cleanup_placing")
         self.is_placing = False
         self.current_placing_tower.is_placing = False
         var.mouse_handler.unsubscribe(self.sub_complete_placement)
@@ -118,19 +126,20 @@ class Player():
 class Game():
 
     def __init__(self):
-
-        pygame.init()
-        pygame.font.init()
+        self.enemy_spawner = EnemySpawner()
         self.components: List[GameComponent] = []
+        self.interfaz = Interfaz()
+        self.components.append(self.interfaz)
         self.window: pygame.Surface = pygame.display.set_mode(
             (var.WIDTH, var.HEIGTH))
         self.setupEvents()
         self.player = Player(10)
-        self.tower_placer = Base.TowerPlacer.TowerPlacer(self.components)
-        self.mapa = TileMap("assets/mapas/mapa2.tmx",(32,32)) # falta añadir colliders del mapa y comprobar colisiones mientras se coloca una torre
+        var.mapa = TileMap("assets/mapas/mapa3.tmx",(48,48))
         var.collision_handler.create_group("mapa")
-        var.collision_handler.add_item_to_group(self.mapa,"mapa")
-        var.component_drawer.addComponent(self.mapa,Rect(0,0,0,0),-10)
+        var.collision_handler.create_group("enemigos")
+        #var.mapa = TileMap("assets/mapas/mapa3.tmx",(48,48)) 
+        var.collision_handler.add_item_to_group(var.mapa,"mapa")
+        var.component_drawer.addComponent(var.mapa,Rect(0,0,0,0),-10)
 
 
     def game_loop(self):
@@ -149,19 +158,33 @@ class Game():
 
             
     def update(self):
-
-        
+        for notification in var.notifications:
+            if notification.is_deleted:
+                var.notifications.remove(notification)
+                break
+            notification.update()
+        if var.game_finished:
+            return
         for component in self.components:
+            if component.is_deleted:
+                self.components.remove(component)
+                break
             component.update()
         self.player.update()        
         var.event_handler.update()
+        var.collision_handler.update()
+        self.enemy_spawner.update()
 
     def setupEvents(self):
         var.event_handler.subscribe(pygame.QUIT, self.exit_game)
         var.keyboard_handler.subscribe(pygame.K_q, self.place_tower)
 
+
     def place_tower(self, event):
-        tower = Tower.Tower(10,300)
+        tower = Tower.Tower(10,300,
+        AnimatedSprite("assets/sprite_torre/desc.json",10,scale=3,animate=False)
+        ,10
+        )
         if(not self.player.place_tower(tower)):
             tower.kill()
 

@@ -61,7 +61,6 @@ if __name__ =="__main__":
                     y-=1
                 if event.key == pg.K_DOWN:
                     y+=1
-        print(x,y) 
         screen.blit(sheet.get_tile(x,y), screen_rect.center)
         pg.display.update()
 

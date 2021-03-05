@@ -1,7 +1,9 @@
+from Base.GameComponent import GameComponent
 from pygame import Rect, Surface
 import pygame
 from pygame.font import Font
 from pygame.color import Color
+from pygame.math import Vector2
 
 
 def render_text(text: str, font: Font, color: Color,background_color:Color=None) -> Surface:
@@ -13,7 +15,8 @@ def render_text(text: str, font: Font, color: Color,background_color:Color=None)
 def load_image_without_empty_space(path:str) ->Surface:
     image = pygame.image.load(path)
     return image.subsurface(image.get_bounding_rect())
-    
+
+
 def merge_surfaces_centered(top: Surface, bottom: Surface) -> Surface:
 
     size1 = top.get_size()
@@ -25,3 +28,6 @@ def merge_surfaces_centered(top: Surface, bottom: Surface) -> Surface:
     obj.blit(bottom,bottom.get_rect())
     obj.blit(top,rect_top.topleft)
     return obj
+
+def inverse_lerp(value_min:float,value_max:float,value_current:float) -> float:
+    return ( value_current - value_min ) /(value_max -value_min)

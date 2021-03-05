@@ -29,7 +29,7 @@ class AnimatedSprite():
         self.descriptor = self.get_descriptor()
         self.image: pygame.Surface = load_image_without_empty_space(
             self.get_descriptor()["default_image"])
-        
+        self.rotation_changed = False
         self.rect = self.image.get_rect()
         self.size = self.rect.size
         self.set_position(pos)
@@ -42,7 +42,7 @@ class AnimatedSprite():
             self.animation_frame = 0
             self.animation_delay = animation_delay
             self.load_animation(self.original_scaling)
-
+            
     def load_animation(self, scale: float):
 
 
@@ -54,15 +54,15 @@ class AnimatedSprite():
                     # aplicar escalado
                     img = pygame.transform.scale(
                         img, (int(self.image.get_width()*scale), int(self.image.get_height() * scale)))
-                    #aplicar rotación
-                    img = pygame.transform.rotate(img,self.rotation)
+
                     imgs.append(img)
                 self.rect = imgs[0].get_bounding_rect()
         self.frames = imgs
 
-    def set_rotation(self,rotation:float):
+    """def set_rotation(self,rotation:float):
         self.rotation = rotation # cambiando atributo para que se aplique al cambiar de animación
-        self.frames = [pygame.transform.rotate(img,self.rotation) for img in self.frames] # aplicando el cambio de rotación a la animación actual
+        self.rotation_changed = True"""
+
     def get_descriptor(self) -> Dict[str, Any]:
 
         with open(self.sprite_route) as descriptor:
@@ -77,7 +77,10 @@ class AnimatedSprite():
                 self.animation_frame %= len(self.frames)-1
                 self.animation_frame += 1
                 self.image = self.frames[self.animation_frame]
-
+        """if self.rotation_changed:
+            print("rotación:",self.rotation)
+            self.image = pygame.transform.rotate(self.image,self.rotation)
+            self.rotation_changed = False"""
     def set_position(self, pos: Tuple[int, int]):
         self.rect.center = (pos[0], pos[1])
 
