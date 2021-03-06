@@ -1,3 +1,6 @@
+from Components.Notification import Notification
+from Components.Tower import Tower
+
 from typing import List, Tuple
 from pygame import Rect, Surface
 import var
@@ -6,7 +9,7 @@ import Base.GameComponent as GameComponent
 import Base.AnimatedSprite as AnimatedSprite
 class Enemy(GameComponent.GameComponent):
 
-    def __init__(self,max_hp:int,speed:float,path:List[pygame.math.Vector2],sprite:AnimatedSprite.AnimatedSprite) -> None:
+    def __init__(self,max_hp:int,speed:float,path:List[pygame.math.Vector2],sprite:AnimatedSprite.AnimatedSprite,rewards:float) -> None:
         super().__init__()
         self.img :Surface
         self.sprite = sprite
@@ -19,14 +22,16 @@ class Enemy(GameComponent.GameComponent):
         self.current_point_index =0
         self.rect.center = self.path[0] # spawn at first point 
         self.drawer_sub = var.component_drawer.addComponent(self,self.rect,0)
-        self.rotation =0
+        self.rotation = 0
+        self.rewards = rewards
     def follow_path(self):
         
         v1 = pygame.math.Vector2(self.rect.center)
         try:
             v2 = self.path[self.current_point_index]
         except IndexError:
-            self.kill()
+            self.end_of_path()
+            
             return
         if v2.distance_squared_to(v1) <self.speed:
             self.current_point_index+=1
@@ -41,7 +46,18 @@ class Enemy(GameComponent.GameComponent):
         self.rotation = angle
         self.rect.x += movement.x
         self.rect.y += movement.y
+    def end_of_path(self):
+        var.vidas-=1
+        if var.vidas <=0:
+            Notification("Has perdido el juego",duration=60)
+            var.game_finished = True
+        self.kill()
 
+    def on_hit(self,hitter:Tower):
+        self.hp-=hitter.damage
+        if self.hp <=0:
+            hitter.power +=self.rewards*0.3
+            var.dinero +=self.rewards *0.7
 
         
     def draw_health(self):

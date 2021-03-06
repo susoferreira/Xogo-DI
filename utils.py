@@ -28,3 +28,6 @@ def merge_surfaces_centered(top: Surface, bottom: Surface) -> Surface:
     obj.blit(bottom,bottom.get_rect())
     obj.blit(top,rect_top.topleft)
     return obj
+
+def inverse_lerp(value_min:float,value_max:float,value_current:float) -> float:
+    return ( value_current - value_min ) /(value_max -value_min)

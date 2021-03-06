@@ -4,4 +4,7 @@ pylintrc
 .idea/
 .vscode/launch.json
 .vscode/settings.json
-assets/Default\ size
+assets/
+build/
+dist/
+game.spec

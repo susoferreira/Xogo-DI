@@ -52,7 +52,7 @@ class Tower(Base.GameComponent.GameComponent):
         var.alpha_frame.blit(font_surface,font_rect)
 
     def render_power(self) -> Surface:
-        txt = f"Power: {self.power}"
+        txt = f"Power: {int(self.power)}"
         
         background_color=Color("#f2ffff")
         return render_text(txt, var.POWER_FONT, var.COLOR_BLACK,background_color)
@@ -89,7 +89,7 @@ class Tower(Base.GameComponent.GameComponent):
                 for enemigo in grupo.items:
                     vec1 = Vector2(enemigo.rect.center)
                     if vec1.distance_squared_to(center_vector) < self.radius_squared:
-                        enemigo.hp -=self.damage
+                        enemigo.on_hit(self)
                         
                         x = enemigo.rect.centerx - self.rect.centerx
                         y = enemigo.rect.centery - self.rect.centery
